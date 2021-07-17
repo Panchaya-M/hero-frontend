@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     fetch(url, {
       method: "GET",
       headers: {
-        'Authorization': 'Basic a21pdGw6YXlzdXQ3Z3c=',
+        'Authorization': process.env.API_CREDENTIAL,
         'Content-Type': 'application/json',
       }
     }).then(resp => resp.json())
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
     fetch(heroJobUrl, {
       method: "GET",
       headers: {
-        'Authorization': 'Basic a21pdGw6YXlzdXQ3Z3c=',
+        'Authorization': process.env.API_CREDENTIAL,
       }
     }).then(resp => resp.json())
       .then(data => {
@@ -60,6 +60,27 @@ function addHeaderTitleToHeroesList(targetDom) {
             <div>Job</div>
         </div>
     `)
+}
+
+function createHero(){
+    let name = formHero.querySelector('#name').value
+    let job = formHero.querySelector('#jobs').value
+    let image = formHero.querySelector('#image').value
+
+    let formData = new FormData
+    formData.append('hero[name]',name)
+    formData.append('hero[job]',job)
+    formData.append('hero[image]',image)
+
+    let createHeroUrl = heroJobUrl
+    fetch(createHeroUrl, {
+        method: 'POST',
+        body: formData
+    })
+    .then(resp => resp.json())
+    .then(data =>{
+        console
+    })
 }
 
 function buildHeroDom(targetDom, data) {
