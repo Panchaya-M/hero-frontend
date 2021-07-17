@@ -1,0 +1,8 @@
+.hero, .hero-header {
+    display: grid;
+    grid-template-columns: 150px 100px 100px 100px 100px;
+}
+
+.field {
+    display: flex;
+}
