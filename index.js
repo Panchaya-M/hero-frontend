@@ -4,7 +4,8 @@ import './src/style.scss'
 document.addEventListener('DOMContentLoaded', function() {
     let listHeroesDom = document.getElementById('list-heroes')
     let formHero = document.querySelector("form")
-  
+    let btnSubmitHero = document.querySelector('btn-submit-hero')
+
     if(listHeroesDom == null) { return }
     let url = process.env.API_URL + "/heroes"
     formHero.setAttribute("action",url);
@@ -27,73 +28,98 @@ document.addEventListener('DOMContentLoaded', function() {
       method: "GET",
       headers: {
         'Authorization': process.env.API_CREDENTIAL,
+        'Content-Type': 'application/json',
       }
     }).then(resp => resp.json())
       .then(data => {
         
         let jobWrapper = document.getElementById('job-wrapper')
         if(jobWrapper == null) { return }
-  
-        console.log(data)
         buildJobDropdown(jobWrapper, data)
       })
-  
+      
+      btnSubmitHero.onclick=()=>{
+          createHero()
+      }
+
+      function createHero(){
+          let name = formHero.querySelector('#name').value
+          let job = formHero.querySelector('#jobs').value
+          let image = formHero.querySelector('#image').files[0]
+          
+          let formData = new FormData()
+          formData.append('hero[name]',name)
+          formData.append('hero[job]',job)
+          formData.append('hero[image]',image)
+          
+          let createHeroUrl = url
+          fetch(createHeroUrl, {
+              method: 'POST',
+              headers:{
+                'Authorization': process.env.API_CREDENTIAL
+              },
+              body: formData,
+              mode: 'cors'
+          })
+          .then(resp => resp.json())
+          .then(data =>{
+              //use response hero to update the hero list table
+              //-Taget heroList
+              //-Build heroItem from the new hero data
+              //-Insert the heroItem DOM into the first position of the hero list
+              
+              insertNewHero(listHeroesDom, data)
+          })
+      }
+    })
     
-  })
-
-function buildJobDropdown(targetDom, data) {
-  targetDom.insertAdjacentHTML('afterbegin', `
-    <select id="jobs" name="hero[job]">
-      ${ data.jobs.map(item => { return `<option value=${item}>${item}</option>` }) }
-      <option value=""></option>
-    </select>
-  `) 
-}
-
-function addHeaderTitleToHeroesList(targetDom) {
-    targetDom.insertAdjacentHTML('afterbegin', `
-        <div class="hero-header">
-            <div>Name</div>
-            <div>Level</div>
-            <div>HP</div>
-            <div>MP</div>
-            <div>Job</div>
-        </div>
-    `)
-}
-
-function createHero(){
-    let name = formHero.querySelector('#name').value
-    let job = formHero.querySelector('#jobs').value
-    let image = formHero.querySelector('#image').value
-
-    let formData = new FormData
-    formData.append('hero[name]',name)
-    formData.append('hero[job]',job)
-    formData.append('hero[image]',image)
-
-    let createHeroUrl = heroJobUrl
-    fetch(createHeroUrl, {
-        method: 'POST',
-        body: formData
-    })
-    .then(resp => resp.json())
-    .then(data =>{
-        console
-    })
-}
-
-function buildHeroDom(targetDom, data) {
-    data.forEach(hero => {
+    function insertNewHero(heroList, hero){
         let htmlStr = `
-            <div class="hero">
-                <a href="" class="hero-name">${hero.name}</a>
-                <div>${hero.level}</div>
-                <div>${hero.hp}</div>
-                <div>${hero.mp}</div>
-                <div>${hero.job}</div>
-            </div>
+        <div class="hero">
+        <a href="" class="hero-name">${hero.name}</a>
+            <div>${hero.level}</div>
+            <div>${hero.hp}</div>
+            <div>${hero.mp}</div>
+            <div>${hero.job}</div>
+        </div>
         `
-        targetDom.insertAdjacentHTML('beforeend', htmlStr)
-    })
-}
+        heroList.insertAdjacentHTML('afterbrgin', htmlStr)
+    } 
+    
+
+      function buildJobDropdown(targetDom, data) {
+        targetDom.insertAdjacentHTML('afterbegin', `
+          <select id="jobs" name="hero[job]">
+            ${ data.jobs.map(item => { return `<option value=${item}>${item}</option>` }) }
+            <option value=""></option>
+          </select>
+        `) 
+      }
+  
+  function addHeaderTitleToHeroesList(targetDom) {
+      targetDom.insertAdjacentHTML('afterbegin', `
+      <div class="hero-header">
+      <div>Name</div>
+      <div>Level</div>
+      <div>HP</div>
+      <div>MP</div>
+      <div>Job</div>
+      </div>
+      `)
+    }
+    
+    
+    function buildHeroDom(targetDom, data) {
+        data.forEach(hero => {
+            let htmlStr = `
+            <div class="hero">
+            <a href="" class="hero-name">${hero.name}</a>
+            <div>${hero.level}</div>
+            <div>${hero.hp}</div>
+            <div>${hero.mp}</div>
+            <div>${hero.job}</div>
+            </div>
+            `
+            targetDom.insertAdjacentHTML('beforeend', htmlStr)
+        })
+    }
