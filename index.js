@@ -4,8 +4,7 @@ import './src/style.scss'
 document.addEventListener('DOMContentLoaded', function() {
     let listHeroesDom = document.getElementById('list-heroes')
     let formHero = document.querySelector("form")
-    let btnSubmitHero = document.querySelector('btn-submit-hero')
-
+    let btnSubmitHero = document.querySelector('#btn-submit-hero')
     if(listHeroesDom == null) { return }
     let url = process.env.API_URL + "/heroes"
     formHero.setAttribute("action",url);
@@ -23,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
     // Get all available jobs from backend
     let heroJobUrl = process.env.API_URL + "/hero_jobs"
-    console.log(heroJobUrl)
+    //console.log(heroJobUrl)
     fetch(heroJobUrl, {
       method: "GET",
       headers: {
@@ -37,8 +36,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if(jobWrapper == null) { return }
         buildJobDropdown(jobWrapper, data)
       })
-      
+   
       btnSubmitHero.onclick=()=>{
+          console.log("WOW")
           createHero()
       }
 
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
           fetch(createHeroUrl, {
               method: 'POST',
               headers:{
-                'Authorization': process.env.API_CREDENTIAL
+                'Authorization': process.env.API_CREDENTIAL,
               },
               body: formData,
               mode: 'cors'
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
               //-Taget heroList
               //-Build heroItem from the new hero data
               //-Insert the heroItem DOM into the first position of the hero list
-              
+
               insertNewHero(listHeroesDom, data)
           })
       }
@@ -75,13 +75,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function insertNewHero(heroList, hero){
         let htmlStr = `
-        <div class="hero">
-        <a href="" class="hero-name">${hero.name}</a>
-            <div>${hero.level}</div>
-            <div>${hero.hp}</div>
-            <div>${hero.mp}</div>
-            <div>${hero.job}</div>
-        </div>
+          <div class="hero">
+              <a href="" class="hero-name">${hero.name}</a>
+              <div>${hero.level}</div>
+              <div>${hero.hp}</div>
+              <div>${hero.mp}</div>
+              <div>${hero.job}</div>
+          </div>
         `
         heroList.insertAdjacentHTML('afterbrgin', htmlStr)
     } 
@@ -98,13 +98,13 @@ document.addEventListener('DOMContentLoaded', function() {
   
   function addHeaderTitleToHeroesList(targetDom) {
       targetDom.insertAdjacentHTML('afterbegin', `
-      <div class="hero-header">
-      <div>Name</div>
-      <div>Level</div>
-      <div>HP</div>
-      <div>MP</div>
-      <div>Job</div>
-      </div>
+        <div class="hero-header">
+          <div>Name</div>
+          <div>Level</div>
+          <div>HP</div>
+          <div>MP</div>
+          <div>Job</div>
+        </div>
       `)
     }
     
@@ -112,13 +112,13 @@ document.addEventListener('DOMContentLoaded', function() {
     function buildHeroDom(targetDom, data) {
         data.forEach(hero => {
             let htmlStr = `
-            <div class="hero">
-            <a href="" class="hero-name">${hero.name}</a>
-            <div>${hero.level}</div>
-            <div>${hero.hp}</div>
-            <div>${hero.mp}</div>
-            <div>${hero.job}</div>
-            </div>
+              <div class="hero">
+                <a href="" class="hero-name">${hero.name}</a>
+                <div>${hero.level}</div>
+                <div>${hero.hp}</div>
+                <div>${hero.mp}</div>
+                <div>${hero.job}</div>
+              </div>
             `
             targetDom.insertAdjacentHTML('beforeend', htmlStr)
         })
