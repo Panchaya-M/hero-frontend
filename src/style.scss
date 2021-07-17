@@ -1,12 +1,17 @@
 .hero, .hero-header {
     display: grid;
-    grid-template-columns: 150px 100px 100px 100px 100px;
-}
-
-.field {
-    display: flex;
-    padding-bottom: 0.5rem;
-}
+    grid-template-columns: 150px 150px 100px 100px 150px
+  }
+  
+  .form-wrapper {
+    .field {
+      display: flex;
+      margin-bottom: 0.5rem;
+    }
+    label {
+      width: 70px;
+    }
+  }
 
 input#image {
     display: none;
