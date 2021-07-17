@@ -5,4 +5,13 @@
 
 .field {
     display: flex;
+    padding-bottom: 0.5rem;
+}
+
+input#image {
+    display: none;
+}
+
+img {
+    width: 30px;
 }
