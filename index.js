@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let listHeroesDom = document.getElementById('list-heroes')
     let formHero = document.querySelector("#form-hero")
     let btnSubmitHero = document.querySelector('#btn-submit-hero')
+    let btnDeleteHero = document.querySelector('#btn-delete-hero')
     if(listHeroesDom == null) { return }
     let url = process.env.API_URL + "/heroes"
     formHero.setAttribute("action",url);
@@ -169,7 +170,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             <div class="bnt">
               <input type="submit" value="update">
-              <input type="submit" value="delete">
+              <input type="submit" value="delete" id="btn-delete-hero" >
             </div>
           </div>
         `
