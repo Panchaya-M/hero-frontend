@@ -10,7 +10,23 @@
     <main>
         <h1>Heroes</h1>
         <div id="list-heroes"></div>
-        <div id="profile-hero"></div>
+        <div id="profile-hero">
+            <div class="profile">
+                <div class="profile-level">Lv. 1</div>
+                <div class="profile-image">
+                  <img src="/images/image_icon.png" alt="" />
+                </div>
+                <div class="profile-name">Asuka</div>
+                <div class="profile-job">knight</div>
+                <div class="profile-hp">156</div>
+                <div class="profile-mp">0</div>
+    
+                <div class="bnt">
+                  <input type="submit" value="update">
+                  <input type="submit" value="delete">
+                </div>
+              </div>
+        </div>
         <div class="form-wrapper">
             <form action="" method="POST">
                 <h2>New Hero</h2>
@@ -24,7 +40,7 @@
                 </div>
                 <div class="field">
                     <label for="image">Choose your avatar
-                        <img src="/images/image_icon.png" />
+                        <img id="add-image" src="/images/image_icon.png" />
                     </label>
                     <input type="file" id="image" name="hero[image]" />
                 </div>
