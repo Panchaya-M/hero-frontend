@@ -1,36 +1,71 @@
+body {
+  background-color: black;
+  margin: 0;
+  padding: 0;
+}
+main {
+  max-width: 1000px;
+  display: grid;
+  grid-template-columns: 600px 400px;
+  background-color: white;
+  margin: 0 auto;
+  padding: 1rem 3rem;
+}
 #list-heroes {
   width: fit-content;
-  padding: 0.5rem;
-  border: 1px solid;
 }
 .hero, .hero-header {
-    display: grid;
-    padding: 0.25rem 0.5rem;
-    grid-template-columns: 150px 85px 85px 85px 150px
+  display: grid;
+  grid-template-columns: 150px 85px 85px 85px 100px;
 }
 .hero-header {
   border-bottom: 1px solid #d6d6d6;
   padding: 0.5rem;
 }
+.hero {
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+}
 .hero:hover {
-  background-color: #b7ecec;
+  background-color: rgb(139, 212, 255);
+}
+.act-wrapper {
+  padding-top: 90px;
 }
 #profile-hero {
+  margin-bottom: 30px;
+}
+.profile {
+  width: 200px;
   border: 1px solid;
-  width: fit-content;
-  padding: 1rem;
-
-  .profile-image img {
-    width: 150px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  border-radius: 10px;
+}
+.profile-image {
+  padding-top: 25px;
+  padding-bottom: 25px;
+  height: 130px;
+  .hero-image {
+    width: 130px;
+    display: block;
+    margin: auto;
+    border-radius: 50%;
   }
 }
 .form-wrapper {
+  padding: 1.5rem;
+  border: 1px solid;
+  margin-bottom: 50px;
+  width: 200px;
+  margin: 0 auto;
+  border-radius: 10px;
   .field {
     display: flex;
     margin-bottom: 0.5rem;
   }
   label {
-    width: 70px;
+    display: flex;
   }
 }
 input#image {
@@ -38,4 +73,8 @@ input#image {
 }
 #add-image {
     width: 30px;
+}
+
+.form-wrapper {
+  border: 1px solid;
 }

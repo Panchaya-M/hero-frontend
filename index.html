@@ -8,46 +8,51 @@
 </head>
 <body>
     <main>
-        <h1>Heroes</h1>
-        <div id="list-heroes"></div>
-        <div id="profile-hero">
-            <div class="profile">
-                <div class="profile-level">Lv. 1</div>
-                <div class="profile-image">
-                  <img src="/images/image_icon.png" alt="" />
-                </div>
-                <div class="profile-name">Asuka</div>
-                <div class="profile-job">knight</div>
-                <div class="profile-hp">156</div>
-                <div class="profile-mp">0</div>
-    
-                <div class="bnt">
-                  <input type="submit" value="update">
-                  <input type="submit" value="delete">
-                </div>
-              </div>
+        <div class="list-wrapper">
+            <h1>Heroes</h1>
+            <div id="list-heroes"></div>
         </div>
-        <div class="form-wrapper">
-            <form action="" method="POST">
-                <h2>New Hero</h2>
-                <div class="field">
-                    <label for="name">Name</label>
-                    <input type="text" id="name" name="hero[name]" />
+        <div class="act-wrapper">
+            <div id="profile-hero">
+                <div class="profile">
+                    <div class="profile-level">Lv. 1</div>
+                    <div class="profile-image">
+                    <img class="hero-image" src="/images/image_icon.png" alt="" />
+                    </div>
+                    <div class="profile-name">Asuka</div>
+                    <div class="profile-job">knight</div>
+                    <div class="profile-hp">hp 156</div>
+                    <div class="profile-mp">mp 0</div>
+        
+                    <div class="bnt">
+                    <input type="submit" value="update">
+                    <input type="submit" value="delete">
+                    </div>
                 </div>
-                <div class="field">
-                    <label for="job">Job</label>
-                    <div id="job-wrapper"></div>
-                </div>
-                <div class="field">
-                    <label for="image">Choose your avatar
-                        <img id="add-image" src="/images/image_icon.png" />
-                    </label>
-                    <input type="file" id="image" name="hero[image]" />
-                </div>
-                <div class="field">
-                    <input type="submit" id="btn-submit-hero" value="create">
-                </div>
-            </form>
+            </div>
+            <div class="form-wrapper">
+                <form action="" method="POST">
+                    <h2>New Hero</h2>
+                    <div class="field">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="hero[name]" />
+                    </div>
+                    <div class="field">
+                        <label for="job">Job</label>
+                        <div id="job-wrapper"></div>
+                    </div>
+                    <div class="field">
+                        <label for="image">
+                            <div>avatar image</div>
+                            <img id="add-image" src="/images/image_icon.png" />
+                        </label>
+                        <input type="file" id="image" name="hero[image]" />
+                    </div>
+                    <div class="field">
+                        <input type="submit" id="btn-submit-hero" value="create">
+                    </div>
+                </form>
+            </div>
         </div>
     </main>
 

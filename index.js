@@ -160,12 +160,12 @@ document.addEventListener('DOMContentLoaded', function() {
           <div class="profile">
             <div class="profile-level">Lv. ${data.level}</div>
             <div class="profile-image">
-              <img src="${imgUrl}" alt="" />
+              <img class="hero-image" src="${imgUrl}" alt="" />
             </div>
             <div class="profile-name">${data.name}</div>
             <div class="profile-job">${data.job}</div>
-            <div class="profile-hp">${data.hp}</div>
-            <div class="profile-mp">${data.mp}</div>
+            <div class="profile-hp">hp ${data.hp}</div>
+            <div class="profile-mp">mp ${data.mp}</div>
 
             <div class="bnt">
               <input type="submit" value="update">
