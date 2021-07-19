@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function() {
               <div>${hero.job}</div>
           </div>
         `
-        heroList.insertAdjacentHTML('afterbrgin', htmlStr)
+        heroList.insertAdjacentHTML('afterbegin', htmlStr)
     } 
     
 
@@ -165,7 +165,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="profile-name">${data.name}</div>
             <div class="profile-job">${data.job}</div>
             <div class="profile-hp">${data.hp}</div>
-            <div class="<profile-mp>${data.mp}</div>
+            <div class="profile-mp">${data.mp}</div>
 
             <div class="bnt">
               <input type="submit" value="update">
