@@ -3,7 +3,7 @@ import './src/style.scss'
 
 document.addEventListener('DOMContentLoaded', function() {
     let listHeroesDom = document.getElementById('list-heroes')
-    let formHero = document.querySelector("form")
+    let formHero = document.querySelector("#form-hero")
     let btnSubmitHero = document.querySelector('#btn-submit-hero')
     if(listHeroesDom == null) { return }
     let url = process.env.API_URL + "/heroes"
