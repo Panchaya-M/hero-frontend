@@ -71,12 +71,41 @@ document.addEventListener('DOMContentLoaded', function() {
               insertNewHero(listHeroesDom, data)
           })
       }
+
+      let profileUrl = url
+      fetch(profileUrl, {
+        method: "GET",
+        headers: {
+          'Authorization': process.env.API_CREDENTIAL,
+          'Content-Type': 'application/json',
+      }
+      }).then(resp => resp.json())
+        .then(data =>{
+          let hero = document.querySelectorAll('.hero-name')
+          hero.forEach(item => {
+            item.addEventListener('click', function() {
+              let id = item.id
+              fetch(profileUrl + "/" + id, {
+                method: "GET",
+                headers: {
+                  'Authorization': process.env.API_CREDENTIAL,
+                  'Content-Type': 'application/json',
+                }
+              }).then(resp => resp.json())
+                .then(data => {
+                  let profileHero = document.getElementById('profile-hero')
+                  if(profileHero == null) { return }
+                  buildprofileHero(profileHero,data)
+                })
+            })
+          })
+        })
     })
     
     function insertNewHero(heroList, hero){
         let htmlStr = `
           <div class="hero">
-              <a href="" class="hero-name">${hero.name}</a>
+              <div id="${hero.id}" class="hero-name">${hero.name}</div>
               <div>${hero.level}</div>
               <div>${hero.hp}</div>
               <div>${hero.mp}</div>
@@ -113,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function() {
         data.forEach(hero => {
             let htmlStr = `
               <div class="hero">
-                <a href="" class="hero-name">${hero.name}</a>
+                <div id="${hero.id}" class="hero-name">${hero.name}</div>
                 <div>${hero.level}</div>
                 <div>${hero.hp}</div>
                 <div>${hero.mp}</div>
@@ -122,4 +151,27 @@ document.addEventListener('DOMContentLoaded', function() {
             `
             targetDom.insertAdjacentHTML('beforeend', htmlStr)
         })
+    }
+
+    function buildprofileHero(targetDom,data) {
+      targetDom.textContent = ''
+      let imgUrl = data.image_thumbnail_url.replace('http://localhost:3002', process.env.API_URL)
+      let htmlStr = `
+          <div class="profile">
+            <div class="profile-level">Lv. ${data.level}</div>
+            <div class="profile-image">
+              <img src="${imgUrl}" alt="" />
+            </div>
+            <div class="profile-name">${data.name}</div>
+            <div class="profile-job">${data.job}</div>
+            <div class="profile-hp">${data.hp}</div>
+            <div class="<profile-mp>${data.mp}</div>
+
+            <div class="bnt">
+              <input type="submit" value="update">
+              <input type="submit" value="delete">
+            </div>
+          </div>
+        `
+        targetDom.insertAdjacentHTML('beforeend', htmlStr)      
     }
