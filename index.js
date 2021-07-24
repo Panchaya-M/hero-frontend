@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let listHeroesDom = document.getElementById('list-heroes')
     let formHero = document.querySelector("#form-hero")
     let btnSubmitHero = document.querySelector('#btn-submit-hero')
-    let btnDeleteHero = document.querySelector('#btn-delete-hero')
     if(listHeroesDom == null) { return }
     let url = process.env.API_URL + "/heroes"
     formHero.setAttribute("action",url);
@@ -39,7 +38,6 @@ document.addEventListener('DOMContentLoaded', function() {
       })
    
       btnSubmitHero.onclick=()=>{
-          console.log("WOW")
           createHero()
       }
 
@@ -64,11 +62,6 @@ document.addEventListener('DOMContentLoaded', function() {
           })
           .then(resp => resp.json())
           .then(data =>{
-              //use response hero to update the hero list table
-              //-Taget heroList
-              //-Build heroItem from the new hero data
-              //-Insert the heroItem DOM into the first position of the hero list
-
               insertNewHero(listHeroesDom, data)
           })
       }
@@ -101,11 +94,32 @@ document.addEventListener('DOMContentLoaded', function() {
             })
           })
         })
+
+        window.deleteHeroItem = function(heroId) {
+          if(confirm('Are you sure?')) {
+            let heroItem = document.querySelector(`[data-id="${heroId}"]`)
+            let heroProfileWrapper = document.getElementById('profile')
+
+            if(heroItem != null) {
+              heroItem.remove()
+              heroProfileWrapper.innerHTML = ''
+              let heroUrl = url + "/" + heroId
+              fetch(heroUrl, {
+                method: "DELETE",
+                headers: {
+                  'Authorization': process.env.API_CREDENTIAL,
+                  'Content-Type': 'application/json',
+                }
+              }).then(resp => resp.json())
+                .then(data => alert("Delete Hero Complete!!!"))
+            }
+          }
+        }
     })
     
     function insertNewHero(heroList, hero){
         let htmlStr = `
-          <div class="hero">
+          <div class="hero" data-id="${hero.id}">
               <div id="${hero.id}" class="hero-name">${hero.name}</div>
               <div>${hero.level}</div>
               <div>${hero.hp}</div>
@@ -142,7 +156,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function buildHeroDom(targetDom, data) {
         data.forEach(hero => {
             let htmlStr = `
-              <div class="hero">
+              <div class="hero" data-id="${hero.id}">
                 <div id="${hero.id}" class="hero-name">${hero.name}</div>
                 <div>${hero.level}</div>
                 <div>${hero.hp}</div>
@@ -158,7 +172,7 @@ document.addEventListener('DOMContentLoaded', function() {
       targetDom.textContent = ''
       let imgUrl = data.image_thumbnail_url.replace('http://localhost:3002', process.env.API_URL)
       let htmlStr = `
-          <div class="profile">
+          <div class="profile" id="profile">
             <div class="profile-level">Lv. ${data.level}</div>
             <div class="profile-image">
               <img class="hero-image" src="${imgUrl}" alt="" />
@@ -169,8 +183,8 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="profile-mp">mp ${data.mp}</div>
 
             <div class="bnt">
-              <input type="submit" value="update">
-              <input type="submit" value="delete" id="btn-delete-hero" >
+            <button class="btn-hero-update">Update</button>
+            <button class="btn-hero-delete" onclick="deleteHeroItem(${data.id})">Delete</button>
             </div>
           </div>
         `
