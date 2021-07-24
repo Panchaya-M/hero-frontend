@@ -97,19 +97,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
         window.deleteHeroItem = function(heroId) {
           if(confirm('Are you sure?')) {
-<<<<<<< HEAD
-            let heroItem = document.querySelector(`[id="${heroId}"]`)
-=======
             let heroItem = document.querySelector(`[data-id="${heroId}"]`)
->>>>>>> 9cb0790fd4bc7eb8416e5be97d70654ba1dcfac2
             let heroProfileWrapper = document.getElementById('profile')
 
             if(heroItem != null) {
               heroItem.remove()
               heroProfileWrapper.innerHTML = ''
-<<<<<<< HEAD
-              // request server with method=DELETE
-=======
               let heroUrl = url + "/" + heroId
               fetch(heroUrl, {
                 method: "DELETE",
@@ -119,7 +112,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
               }).then(resp => resp.json())
                 .then(data => alert("Delete Hero Complete!!!"))
->>>>>>> 9cb0790fd4bc7eb8416e5be97d70654ba1dcfac2
             }
           }
         }
