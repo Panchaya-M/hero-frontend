@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', function() {
               <div>${hero.job}</div>
           </div>
         `
-        heroList.insertAdjacentHTML('afterbegin', htmlStr)
+        heroList.insertAdjacentHTML('afterend', htmlStr)
     } 
     
 
