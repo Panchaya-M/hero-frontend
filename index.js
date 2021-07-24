@@ -38,7 +38,6 @@ document.addEventListener('DOMContentLoaded', function() {
       })
    
       btnSubmitHero.onclick=()=>{
-          console.log("WOW")
           createHero()
       }
 
@@ -63,11 +62,6 @@ document.addEventListener('DOMContentLoaded', function() {
           })
           .then(resp => resp.json())
           .then(data =>{
-              //use response hero to update the hero list table
-              //-Taget heroList
-              //-Build heroItem from the new hero data
-              //-Insert the heroItem DOM into the first position of the hero list
-
               insertNewHero(listHeroesDom, data)
           })
       }
@@ -100,6 +94,19 @@ document.addEventListener('DOMContentLoaded', function() {
             })
           })
         })
+
+        window.deleteHeroItem = function(heroId) {
+          if(confirm('Are you sure?')) {
+            let heroItem = document.querySelector(`[id="${heroId}"]`)
+            let heroProfileWrapper = document.getElementById('profile-hero')
+
+            if(heroItem != null) {
+              heroItem.remove()
+              heroProfileWrapper.innerHTML = ''
+              // request server with method=DELETE
+            }
+          }
+        }
     })
     
     function insertNewHero(heroList, hero){
@@ -168,8 +175,8 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="profile-mp">mp ${data.mp}</div>
 
             <div class="bnt">
-              <input type="submit" value="update">
-              <input type="submit" value="delete">
+            <button class="btn-hero-update">Update</button>
+            <button class="btn-hero-delete" onclick="deleteHeroItem(${data.id})">Delete</button>
             </div>
           </div>
         `
