@@ -3,7 +3,7 @@ import './src/style.scss'
 
 document.addEventListener('DOMContentLoaded', function() {
     let listHeroesDom = document.getElementById('list-heroes')
-    let formHero = document.querySelector("form")
+    let formHero = document.querySelector("#form-hero")
     let btnSubmitHero = document.querySelector('#btn-submit-hero')
     if(listHeroesDom == null) { return }
     let url = process.env.API_URL + "/heroes"
@@ -97,13 +97,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
         window.deleteHeroItem = function(heroId) {
           if(confirm('Are you sure?')) {
+<<<<<<< HEAD
             let heroItem = document.querySelector(`[id="${heroId}"]`)
+=======
+            let heroItem = document.querySelector(`[data-id="${heroId}"]`)
+>>>>>>> 9cb0790fd4bc7eb8416e5be97d70654ba1dcfac2
             let heroProfileWrapper = document.getElementById('profile')
 
             if(heroItem != null) {
               heroItem.remove()
               heroProfileWrapper.innerHTML = ''
+<<<<<<< HEAD
               // request server with method=DELETE
+=======
+              let heroUrl = url + "/" + heroId
+              fetch(heroUrl, {
+                method: "DELETE",
+                headers: {
+                  'Authorization': process.env.API_CREDENTIAL,
+                  'Content-Type': 'application/json',
+                }
+              }).then(resp => resp.json())
+                .then(data => alert("Delete Hero Complete!!!"))
+>>>>>>> 9cb0790fd4bc7eb8416e5be97d70654ba1dcfac2
             }
           }
         }
@@ -111,7 +127,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function insertNewHero(heroList, hero){
         let htmlStr = `
-          <div class="hero">
+          <div class="hero" data-id="${hero.id}">
               <div id="${hero.id}" class="hero-name">${hero.name}</div>
               <div>${hero.level}</div>
               <div>${hero.hp}</div>
@@ -148,7 +164,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function buildHeroDom(targetDom, data) {
         data.forEach(hero => {
             let htmlStr = `
-              <div class="hero">
+              <div class="hero" data-id="${hero.id}">
                 <div id="${hero.id}" class="hero-name">${hero.name}</div>
                 <div>${hero.level}</div>
                 <div>${hero.hp}</div>
@@ -164,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function() {
       targetDom.textContent = ''
       let imgUrl = data.image_thumbnail_url.replace('http://localhost:3002', process.env.API_URL)
       let htmlStr = `
-          <div class="profile">
+          <div class="profile" id="profile">
             <div class="profile-level">Lv. ${data.level}</div>
             <div class="profile-image">
               <img class="hero-image" src="${imgUrl}" alt="" />
