@@ -128,6 +128,16 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
           buildHeroList(data)
           addHeaderTitleToHeroesList()
+          assignClickEventForHeroItem()
+      })
+    }
+
+    function assignClickEventForHeroItem() {
+      let heroItems = document.querySelectorAll('.hero')
+      heroItems.forEach(hero => {
+        hero.addEventListener('click', function(){
+          console.log('Can click hero')
+        })
       })
     }
     
