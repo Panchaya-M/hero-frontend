@@ -2,23 +2,15 @@ require('dotenv').config()
 import './src/style.scss'
 
 document.addEventListener('DOMContentLoaded', function() {
-    let listHeroesDom = document.getElementById('list-heroes')
+    let listHeroTag = getListOfHeroTag()
+    if(listHeroTag == null) { return }
+
+    displayListOfHero()
+
     let formHero = document.querySelector("#form-hero")
     let btnSubmitHero = document.querySelector('#btn-submit-hero')
-    if(listHeroesDom == null) { return }
     let url = process.env.API_URL + "/heroes"
     formHero.setAttribute("action",url);
-    fetch(url, {
-      method: "GET",
-      headers: {
-        'Authorization': process.env.API_CREDENTIAL,
-        'Content-Type': 'application/json',
-      }
-    }).then(resp => resp.json())
-      .then(data => {
-        buildHeroDom(listHeroesDom, data)
-        addHeaderTitleToHeroesList(listHeroesDom)
-    })
   
     // Get all available jobs from backend
     let heroJobUrl = process.env.API_URL + "/hero_jobs"
@@ -116,6 +108,28 @@ document.addEventListener('DOMContentLoaded', function() {
           }
         }
     })
+
+    function heroUrl() {
+      return process.env.API_URL + "/heroes"
+    }
+
+    function getListOfHeroTag() {
+      return document.getElementById('list-heroes')
+    }
+
+    function displayListOfHero() {
+      fetch(heroUrl(), {
+        method: "GET",
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': process.env.API_CREDENTIAL
+        }
+      }).then(resp => resp.json())
+        .then(data => {
+          buildHeroList(data)
+          addHeaderTitleToHeroesList()
+      })
+    }
     
     function insertNewHero(heroList, hero){
         let htmlStr = `
@@ -140,8 +154,8 @@ document.addEventListener('DOMContentLoaded', function() {
         `) 
       }
   
-  function addHeaderTitleToHeroesList(targetDom) {
-      targetDom.insertAdjacentHTML('afterbegin', `
+  function addHeaderTitleToHeroesList() {
+      getListOfHeroTag().insertAdjacentHTML('afterbegin', `
         <div class="hero-header">
           <div>Name</div>
           <div>Level</div>
@@ -153,10 +167,20 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     
-    function buildHeroDom(targetDom, data) {
+    function buildHeroList(data) {
+        let listHeroTag = getListOfHeroTag()
         data.forEach(hero => {
+            let heroData = {
+              id: hero.id,
+              name: hero.name,
+              level: hero.level,
+              hp: hero.hp,
+              mp: hero.mp,
+              job: hero.job,
+              image_medium_url: hero.image_medium_url.replace('http://localhost:3002', process.env.API_URL)
+            }
             let htmlStr = `
-              <div class="hero" data-id="${hero.id}">
+              <div class="hero" data-id="${hero.id}" data-hero='${JSON.stringify(heroData)}'>
                 <div id="${hero.id}" class="hero-name">${hero.name}</div>
                 <div>${hero.level}</div>
                 <div>${hero.hp}</div>
@@ -164,7 +188,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div>${hero.job}</div>
               </div>
             `
-            targetDom.insertAdjacentHTML('beforeend', htmlStr)
+            listHeroTag.insertAdjacentHTML('beforeend', htmlStr)
         })
     }
 
