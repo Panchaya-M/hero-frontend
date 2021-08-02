@@ -58,35 +58,6 @@ document.addEventListener('DOMContentLoaded', function() {
           })
       }
 
-      let profileUrl = url
-      fetch(profileUrl, {
-        method: "GET",
-        headers: {
-          'Authorization': process.env.API_CREDENTIAL,
-          'Content-Type': 'application/json',
-      }
-      }).then(resp => resp.json())
-        .then(data =>{
-          let hero = document.querySelectorAll('.hero-name')
-          hero.forEach(item => {
-            item.addEventListener('click', function() {
-              let id = item.id
-              fetch(profileUrl + "/" + id, {
-                method: "GET",
-                headers: {
-                  'Authorization': process.env.API_CREDENTIAL,
-                  'Content-Type': 'application/json',
-                }
-              }).then(resp => resp.json())
-                .then(data => {
-                  let profileHero = document.getElementById('profile-hero')
-                  if(profileHero == null) { return }
-                  buildprofileHero(profileHero,data)
-                })
-            })
-          })
-        })
-
         window.deleteHeroItem = function(heroId) {
           if(confirm('Are you sure?')) {
             let heroItem = document.querySelector(`[data-id="${heroId}"]`)
@@ -136,7 +107,8 @@ document.addEventListener('DOMContentLoaded', function() {
       let heroItems = document.querySelectorAll('.hero')
       heroItems.forEach(hero => {
         hero.addEventListener('click', function(){
-          console.log('Can click hero')
+          console.log(hero)
+          displayHeroProfile(hero)
         })
       })
     }
@@ -202,25 +174,26 @@ document.addEventListener('DOMContentLoaded', function() {
         })
     }
 
-    function buildprofileHero(targetDom,data) {
-      targetDom.textContent = ''
-      let imgUrl = data.image_thumbnail_url.replace('http://localhost:3002', process.env.API_URL)
-      let htmlStr = `
+    function displayHeroProfile(hero) {
+      let heroProfileWrapper = document.getElementById('profile-hero')
+      let heroData = JSON.parse(hero.dataset.hero)
+      let heroPhoto = heroData.image_medium_url
+
+      heroProfileWrapper.innerHTML = `
           <div class="profile" id="profile">
-            <div class="profile-level">Lv. ${data.level}</div>
+            <div class="profile-level">Lv. ${heroData.level}</div>
             <div class="profile-image">
-              <img class="hero-image" src="${imgUrl}" alt="" />
+              <img class="hero-image" src="${heroPhoto}" alt="${heroData.name}" />
             </div>
-            <div class="profile-name">${data.name}</div>
-            <div class="profile-job">${data.job}</div>
-            <div class="profile-hp">hp ${data.hp}</div>
-            <div class="profile-mp">mp ${data.mp}</div>
+            <div class="profile-name">${heroData.name}</div>
+            <div class="profile-job">${heroData.job}</div>
+            <div class="profile-hp">hp ${heroData.hp}</div>
+            <div class="profile-mp">mp ${heroData.mp}</div>
 
             <div class="bnt">
             <button class="btn-hero-update">Update</button>
-            <button class="btn-hero-delete" onclick="deleteHeroItem(${data.id})">Delete</button>
+            <button class="btn-hero-delete" onclick="deleteHeroItem(${heroData.id})">Delete</button>
             </div>
           </div>
-        `
-        targetDom.insertAdjacentHTML('beforeend', htmlStr)      
+        ` 
     }
